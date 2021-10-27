@@ -15,7 +15,7 @@ Installation
 
 Either download the whole repo and open as a Unity Project or add the package to your own project using UPM. Edit your project's ./Packages/manifest.json file:
 
-"com.icosa.strokereceiver": "https://github.com/IxxyXR/open-brush-stroke-receiver.git#upm"  
+"com.icosa.strokereceiver": "https://github.com/IxxyXR/open-brush-stroke-receiver.git#upm"
 
 Usage
 -----

@@ -1,0 +1,14 @@
+{
+	"name": "com.icosa.strokereceiver",
+	"version": "0.0.1",
+	"displayName": "Open Brush Stroke Receiver",
+	"description": "An simple example of how to recieve brush strokes in real time from the Open Brush API: https://docs.openbrush.app/alternate-and-experimental-builds/experimental-builds/open-brush-api",
+	"unity": "2019.4",
+	"author": {
+		"name": "Icosa Team",
+		"email": "icosa.gallery@gmail.com",
+		"url": "https://openbrush.app/"
+	},
+	"dependencies": {},
+	"scopedRegistries": []
+}
