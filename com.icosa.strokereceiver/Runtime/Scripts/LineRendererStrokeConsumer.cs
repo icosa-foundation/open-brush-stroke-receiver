@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LineRendererStrokeConsumer : BaseStrokeConsumer
 {
-    private float WidthMultiplier = .1f;
+    private readonly float WidthMultiplier = .1f;
     private LineRenderer _lr;
     
     protected override void ProcessCurrentPath()
@@ -14,6 +14,7 @@ public class LineRendererStrokeConsumer : BaseStrokeConsumer
         if (_lr == null) _lr = GetComponent<LineRenderer>();
         _lr.material.color = currentColor;
         _lr.positionCount = currentPath.Count;
+        _lr.widthMultiplier = currentBrushSize;
         var curve = new AnimationCurve();
         for (var i = 0; i < currentPath.Count; i++)
         {
