@@ -10,6 +10,7 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
 {
     [NonSerialized] public Color currentColor;
     [NonSerialized] public string currentBrush;
+    [NonSerialized] public float currentBrushSize;
     [NonSerialized] public List<List<float>> currentPath;
     
     private Queue _strokeQueue;
@@ -46,6 +47,12 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
         {
             // brush.type=2241cd32-8ba2-48a5-9ee7-2caef7e9ed62
             currentBrush = parts[1];
+        }
+        else if (parts[0] == "brush.size")
+        {
+            // brush.size=0.5
+            float.TryParse(parts[1], out currentBrushSize);
+
         }
         else if (parts[0]=="color.set.rgb")
         {
