@@ -33,8 +33,8 @@ public class HttpServer : MonoBehaviour
 
     void Awake()
     {
-        try
-        {
+        // try
+        // {
             _httpListener = new HttpListener();
             _httpListener.Prefixes.Add(String.Format("http://+:{0}/", HttpPort));
             _httpListener.Start();
@@ -91,12 +91,12 @@ public class HttpServer : MonoBehaviour
                     }
                 }
             });
-        }
-        catch (System.Net.Sockets.SocketException e)
-        {
-            Debug.LogFormat("HttpListener failed to start\n{0}", e);
-            _httpListener = null;
-        }
+        // }
+        // catch (System.Net.Sockets.SocketException e)
+        // {
+        //     Debug.LogFormat("HttpListener failed to start\n{0}", e);
+        //     _httpListener = null;
+        // }
     }
 
     private void OnDestroy()

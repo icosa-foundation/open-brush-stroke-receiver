@@ -44,11 +44,30 @@ public class StrokeReceiver : MonoBehaviour
     string HttpStrokeCallback(HttpListenerRequest request)
     {
         var urlPath = request.Url.LocalPath;
-        var query = Uri.UnescapeDataString(request.Url.Query);
-        if (urlPath == ReceiverBasePath && query.Length > 1)
+        if (urlPath == ReceiverBasePath)
         {
-            var payload = query.Substring(1);
-            StrokeQueue.Enqueue(payload);
+            var query = Uri.UnescapeDataString(request.Url.Query);
+            if (request.HasEntityBody)
+            {
+                using (var reader = new System.IO.StreamReader(request.InputStream, request.ContentEncoding))
+                {
+                    var body = reader.ReadToEnd();
+                    body = Uri.UnescapeDataString(body);
+                    foreach (var line in body.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        var payload = line.Trim();
+                        if (payload.Length > 0)
+                        {
+                            StrokeQueue.Enqueue(payload);
+                        }
+                    }
+                }
+            }
+            else if (query.Length > 1)
+            {
+                var payload = query.Substring(1);
+                StrokeQueue.Enqueue(payload);
+            }
         }
         return "OK";
     }

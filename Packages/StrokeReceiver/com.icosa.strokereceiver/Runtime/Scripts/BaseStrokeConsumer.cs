@@ -14,7 +14,6 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
     [NonSerialized] public List<List<float>> currentPath;
     
     private Queue _strokeQueue;
-    private bool pathReady = false;
 
     protected virtual void Update()
     {
@@ -22,14 +21,12 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
         if (command != null)
         {
             DecodeCommand(command);
-            if (pathReady) ProcessCurrentPath();
-            pathReady = false;
         }
     }
 
-    protected virtual string GetNextCommand()
+    private string GetNextCommand()
     {
-        if (_strokeQueue == null) _strokeQueue = gameObject.GetComponent<StrokeReceiver>().StrokeQueue;
+        _strokeQueue ??= gameObject.GetComponent<StrokeReceiver>().StrokeQueue;
         try
         {
             return (string)_strokeQueue.Dequeue();
@@ -40,7 +37,7 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
         }
     }
 
-    protected virtual void DecodeCommand(string command)
+    private void DecodeCommand(string command)
     {
         var parts = command.Split(new []{'='}, 2).ToList();
         if (parts[0]=="brush.type")
@@ -52,7 +49,6 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
         {
             // brush.size=0.5
             float.TryParse(parts[1], out currentBrushSize);
-
         }
         else if (parts[0]=="color.set.rgb")
         {
@@ -66,6 +62,7 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
         }
         else if (parts[0]=="draw.stroke")
         {
+
             // each point is 7 floats: position xyz, euler rotation xyz, pressure
             // draw.stroke=[-1,12,9,0,180,0,1],[-1,13,9,0,180,0,1]...
             JArray strokeData = JArray.Parse($"[{parts[1]}]");
@@ -74,7 +71,7 @@ public abstract class BaseStrokeConsumer : MonoBehaviour
                     val=>float.Parse(val.ToString())
                 ).ToList()
             ).ToList();
-            pathReady = true;
+            ProcessCurrentPath();
         }
     }
 
